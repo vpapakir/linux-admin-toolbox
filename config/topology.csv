@@ -1,5 +1,5 @@
-"1","1","83.212.169.105","POSTGRES","postgres","postgres","dhus_db",""
-"2","1","195.251.203.242","MYSQL","root","XXX","BEYOND_db",""
+"83.212.169.105","POSTGRES","postgres","postgres","dhus_db",""
+"195.251.203.242","MYSQL","root","XXX","BEYOND_db",""
 "83.212.169.94","/var/www/html/DHus/","DHus","storageadmin","ESA_MIRROR_SITE_SOURCE_CODE_WEB"
 "83.212.169.91","/home/mirroradmin/SentinelMonitor/","SentinelMonitor","mirroradmin","ESA_MIRROR_SITE_SOURCE_CODE_BACKEND"
 "195.251.203.113","PING","NOFTP","NOSSH","NODISK","","NOVNC","5900","NODB","DBUSER","DBPORT"
