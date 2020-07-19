@@ -1,21 +1,8 @@
 #!/bin/bash
 
-RECIPIENT="vpapakir@noa.gr"
-DATAFILE="/home/ubuntu/networkdata.csv"
-COUNT=2
-PINGLOG="/var/log/PING.log"
-
-logEvent() {
-	#echo "["$(date -R)"] [$IPADDR] [$HOSTNAME] [$EVENTCATEGORY]: [$EVENTMESSAGE]"
-	echo "["$(date -R)"] [$1] [$2] [$3]: [$4]"
-}
-
-mailReport() {
-	 #echo -e "Subject: HEALTH REPORT:[ "$SERVER2CHECK "("$HOSTNAME") - "$(date -R)"]\r\n\r\n$REPORT" | msmtp -a default $RECEIVER
-	 echo -e "Subject: HEALTH REPORT:[ "$1 "("$2") - "$(date -R)"]\r\n\r\n$3" | msmtp -a default $4
-}
-
-sudo echo "" > $PINGLOG
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source "${DIR}/../config/config.sh"
+source "${DIR}/../functions/functions.sh"
 
 cat $DATAFILE | while read line
 do
