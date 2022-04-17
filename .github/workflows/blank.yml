@@ -35,4 +35,4 @@ jobs:
           pwd
           git clone https://github.com/bats-core/bats-core.git
           ls -la
-          /bats-core/bin/bash --tap tests/ --verbose-run
+          /bats-core/bin/bats --tap tests/ --verbose-run
