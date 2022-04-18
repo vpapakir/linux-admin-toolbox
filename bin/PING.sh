@@ -28,11 +28,12 @@ else
 	echo "[INFO] Loaded function file successfully"
 fi
 
+rm -v "/tmp/ping.txt"
 cat $DATAFILE | while read -r line
 do
-        SERVER2PING=$(echo $line | cut -d',' -f1)
-	PINGRETURN=$(ping -D -c $COUNT $SERVER2PING | grep transmitted | awk {'print $1$4'})
-	if [ $PINGRETURN -eq $COUNT$COUNT ]; then
+        SERVER2PING=$(echo $line | cut -d "," -f2)
+	PINGRETURN=$(ping ${SERVER2PING} -c 3 -q 2>&1 | grep loss | awk '{print $7}' | cut -d "%" -f1)
+	if [[ "${PINGRETURN}" == "0.0" ]]; then
 		RESULT="["$(date -R)"] [ "$SERVER2PING" ] [ "$(nslookup $SERVER2PING | grep name | awk {'print $4'})" ] [ "$PINGRETURN" ] Server is UP!" 
 	else
 		RESULT="["$(date -R)"] [ "$SERVER2PING" ] [ "$(nslookup $SERVER2PING | grep name | awk {'print $4'})" ] [ "$PINGRETURN" ] Server does not respond to PING. That means that server is either down or blocking our pings. Please inspect..."
@@ -41,9 +42,10 @@ do
 	echo $RESULT >> $PINGLOG
 done
 
-if [[ -z $PINGLOG ]]; then
-	send_mail_report "PING" "${HOSTNAME}" "${PINGLOG}" "${RECIPIENT}"
-	if [[ $? -eq 97 ]]; then
+if [[ -f $PINGLOG ]]; then
+	echo "[INFO] Sending out report in email..."
+	HAS_SENT=$(send_mail_report "PING" "${HOSTNAME}" "${PINGLOG}" "${RECIPIENT}")
+	if [[ "${HAS_SENT}" == "97" ]]; then
 		echo "[ERROR] Mail report could not be sent as the msmtp mail client is not available"
 		exit 97
 	fi
@@ -51,3 +53,5 @@ else
 	echo "[INFO] No ping data to be sent out. Exiting..."
 	exit 98
 fi
+
+rm -v "${PINGLOG}"

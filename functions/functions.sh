@@ -8,7 +8,9 @@ logEvent() {
 send_mail_report() {
 	if ! command -v msmtp &> /dev/null
 	then
-		exit 97
+		echo "97"
+	else
+		echo -e "Subject: HEALTH REPORT:[ "$1 "("$2") - "$(date -R)"]\r\n\r\n$3" | msmtp -a default $4
+		exit "0"
 	fi
-	echo -e "Subject: HEALTH REPORT:[ "$1 "("$2") - "$(date -R)"]\r\n\r\n$3" | msmtp -a default $4
 }
