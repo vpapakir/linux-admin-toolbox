@@ -5,7 +5,10 @@ logEvent() {
         echo "["$(date -R)"] [$1] [$2] [$3]: [$4]"
 }
 
-mailReport() {
-         #echo -e "Subject: HEALTH REPORT:[ "$SERVER2CHECK "("$HOSTNAME") - "$(date -R)"]\r\n\r\n$REPORT" | msmtp -a default $RECEIVER
-         echo -e "Subject: HEALTH REPORT:[ "$1 "("$2") - "$(date -R)"]\r\n\r\n$3" | msmtp -a default $4
+send_mail_report() {
+	if ! command -v msmtp &> /dev/null
+	then
+		exit 97
+	fi
+	echo -e "Subject: HEALTH REPORT:[ "$1 "("$2") - "$(date -R)"]\r\n\r\n$3" | msmtp -a default $4
 }
